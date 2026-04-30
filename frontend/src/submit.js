@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useStore } from './store';
+import { Button } from './components/ui/button';
 
 export const SubmitButton = () => {
     const nodes = useStore((state) => state.nodes);
@@ -16,12 +17,18 @@ export const SubmitButton = () => {
         setResult(null);
 
         try {
+            const cleanNodes = nodes.map((node) => ({ id: node.id }));
+            const cleanEdges = edges.map((edge) => ({
+                source: edge.source,
+                target: edge.target,
+            }));
+
             const response = await fetch('http://127.0.0.1:8000/pipelines/parse', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ nodes, edges }),
+                body: JSON.stringify({ nodes: cleanNodes, edges: cleanEdges }),
             });
 
             if (!response.ok) {
@@ -38,12 +45,14 @@ export const SubmitButton = () => {
     };
 
     return (
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px' }}>
-            <button type="button" onClick={handleSubmit} disabled={isSubmitting}>
+        <div className="flex flex-col items-center gap-2 pb-4">
+            <Button type="button" onClick={handleSubmit} disabled={isSubmitting}>
                 {isSubmitting ? 'Submitting...' : 'Submit'}
-            </button>
-            {result && <div>{`Status: ${result.status} | Nodes: ${result.num_nodes} | Edges: ${result.num_edges}`}</div>}
-            {error && <div style={{ color: 'crimson' }}>{error}</div>}
+            </Button>
+            {result && (
+                <div className="text-sm text-muted-foreground">{`Nodes: ${result.num_nodes} | Edges: ${result.num_edges} | DAG: ${result.is_dag}`}</div>
+            )}
+            {error && <div className="text-sm text-red-600">{error}</div>}
         </div>
     );
 }

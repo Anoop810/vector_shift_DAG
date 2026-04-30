@@ -10,6 +10,10 @@ import { InputNode } from './nodes/inputNode';
 import { LLMNode } from './nodes/llmNode';
 import { OutputNode } from './nodes/outputNode';
 import { TextNode } from './nodes/textNode';
+import { TransformNode } from './nodes/transformNode';
+import { MathNode } from './nodes/mathNode';
+import { ConcatNode } from './nodes/concatNode';
+import { FilterNode } from './nodes/filterNode';
 
 import 'reactflow/dist/style.css';
 
@@ -20,6 +24,10 @@ const nodeTypes = {
   llm: LLMNode,
   customOutput: OutputNode,
   text: TextNode,
+  transform: TransformNode,
+  math: MathNode,
+  concat: ConcatNode,
+  filter: FilterNode,
 };
 
 const selector = (state) => ({
@@ -80,7 +88,7 @@ export const PipelineUI = () => {
             addNode(newNode);
           }
         },
-        [reactFlowInstance]
+        [addNode, getNodeID, reactFlowInstance]
     );
 
     const onDragOver = useCallback((event) => {
@@ -90,13 +98,14 @@ export const PipelineUI = () => {
 
     return (
         <>
-        <div ref={reactFlowWrapper} style={{width: '100wv', height: '70vh'}}>
+        <div ref={reactFlowWrapper} style={{width: '100vw', height: '70vh'}}>
             <ReactFlow
                 nodes={nodes}
                 edges={edges}
                 onNodesChange={onNodesChange}
                 onEdgesChange={onEdgesChange}
                 onConnect={onConnect}
+                deleteKeyCode={['Backspace', 'Delete']}
                 onDrop={onDrop}
                 onDragOver={onDragOver}
                 onInit={setReactFlowInstance}
