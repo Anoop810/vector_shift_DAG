@@ -30,6 +30,7 @@ export const TextNode = ({ id, data }) => {
 
   return (
     <BaseNode
+      nodeId={id}
       title="Text"
       inputs={inputHandles}
       outputs={[{ id: `${id}-output` }]}

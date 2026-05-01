@@ -4,6 +4,8 @@
 
 import { useState, useRef, useCallback } from 'react';
 import ReactFlow, { Controls, Background, MiniMap } from 'reactflow';
+import PipelineEdge from './edges/pipelineEdge';
+import { useTheme } from './theme-context';
 import { useStore } from './store';
 import { shallow } from 'zustand/shallow';
 import { InputNode } from './nodes/inputNode';
@@ -30,6 +32,10 @@ const nodeTypes = {
   filter: FilterNode,
 };
 
+const edgeTypes = {
+  pipeline: PipelineEdge,
+};
+
 const selector = (state) => ({
   nodes: state.nodes,
   edges: state.edges,
@@ -41,6 +47,8 @@ const selector = (state) => ({
 });
 
 export const PipelineUI = () => {
+    const { theme } = useTheme();
+    const pipelineStroke = theme === 'dark' ? '#c4b5fd' : '#a78bfa';
     const reactFlowWrapper = useRef(null);
     const [reactFlowInstance, setReactFlowInstance] = useState(null);
     const {
@@ -110,11 +118,17 @@ export const PipelineUI = () => {
                 onDragOver={onDragOver}
                 onInit={setReactFlowInstance}
                 nodeTypes={nodeTypes}
+                edgeTypes={edgeTypes}
                 proOptions={proOptions}
                 snapGrid={[gridSize, gridSize]}
-                connectionLineType='smoothstep'
+                connectionLineType='default'
+                connectionLineStyle={{
+                  stroke: pipelineStroke,
+                  strokeWidth: 2,
+                  strokeDasharray: '6 5',
+                }}
             >
-                <Background color="#aaa" gap={gridSize} />
+                <Background color={theme === 'dark' ? '#525252' : '#aaa'} gap={gridSize} />
                 <Controls />
                 <MiniMap />
             </ReactFlow>

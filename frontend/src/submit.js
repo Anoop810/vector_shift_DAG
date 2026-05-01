@@ -1,6 +1,7 @@
 // submit.js
 
 import { useState } from 'react';
+import { toast } from 'sonner';
 import { useStore } from './store';
 import { Button } from './components/ui/button';
 
@@ -8,13 +9,11 @@ export const SubmitButton = () => {
     const nodes = useStore((state) => state.nodes);
     const edges = useStore((state) => state.edges);
     const [isSubmitting, setIsSubmitting] = useState(false);
-    const [result, setResult] = useState(null);
     const [error, setError] = useState('');
 
     const handleSubmit = async () => {
         setIsSubmitting(true);
         setError('');
-        setResult(null);
 
         try {
             const cleanNodes = nodes.map((node) => ({ id: node.id }));
@@ -36,7 +35,14 @@ export const SubmitButton = () => {
             }
 
             const data = await response.json();
-            setResult(data);
+            toast.success('Pipeline parsed', {
+                description: (
+                    <span className="block whitespace-pre-line text-left text-sm">
+                        {`Nodes: ${data.num_nodes}\nEdges: ${data.num_edges}\nDAG: ${data.is_dag}`}
+                    </span>
+                ),
+                duration: 6000,
+            });
         } catch (err) {
             setError(err.message || 'Request failed');
         } finally {
@@ -49,9 +55,6 @@ export const SubmitButton = () => {
             <Button type="button" onClick={handleSubmit} disabled={isSubmitting}>
                 {isSubmitting ? 'Submitting...' : 'Submit'}
             </Button>
-            {result && (
-                <div className="text-sm text-muted-foreground">{`Nodes: ${result.num_nodes} | Edges: ${result.num_edges} | DAG: ${result.is_dag}`}</div>
-            )}
             {error && <div className="text-sm text-red-600">{error}</div>}
         </div>
     );

@@ -19,6 +19,7 @@ export const InputNode = ({ id, data }) => {
 
   return (
     <BaseNode
+      nodeId={id}
       title="Input"
       outputs={[{ id: `${id}-output` }]}
     >

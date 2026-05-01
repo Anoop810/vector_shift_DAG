@@ -7,6 +7,7 @@ export const TransformNode = ({ id, data }) => {
 
   return (
     <BaseNode
+      nodeId={id}
       title="Transform"
       inputs={[{ id: `${id}-input` }]}
       outputs={[{ id: `${id}-output` }]}

@@ -7,6 +7,7 @@ export const ConcatNode = ({ id, data }) => {
 
   return (
     <BaseNode
+      nodeId={id}
       title="Concat"
       inputs={[{ id: `${id}-first` }, { id: `${id}-second` }, { id: `${id}-third` }]}
       outputs={[{ id: `${id}-output` }]}

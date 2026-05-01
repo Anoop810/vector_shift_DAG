@@ -16,7 +16,27 @@
   --border: 214.3 31.8% 91.4%;
   --input: 214.3 31.8% 91.4%;
   --ring: 221.2 83.2% 53.3%;
+  --destructive: 0 84.2% 60.2%;
+  --destructive-foreground: 210 40% 98%;
   --radius: 0.5rem;
+}
+
+.dark {
+  --background: 222.2 84% 4.9%;
+  --foreground: 210 40% 98%;
+  --card: 222.2 84% 6.5%;
+  --card-foreground: 210 40% 98%;
+  --primary: 217.2 91.2% 59.8%;
+  --primary-foreground: 222.2 47.4% 11.2%;
+  --secondary: 217.2 32.6% 17.5%;
+  --secondary-foreground: 210 40% 98%;
+  --muted: 217.2 32.6% 17.5%;
+  --muted-foreground: 215 20.2% 65.1%;
+  --border: 217.2 32.6% 17.5%;
+  --input: 217.2 32.6% 17.5%;
+  --ring: 224.3 76.3% 48%;
+  --destructive: 0 62.8% 50%;
+  --destructive-foreground: 210 40% 98%;
 }
 
 * {
@@ -27,4 +47,48 @@ body {
   @apply bg-background text-foreground antialiased;
   margin: 0;
   font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+/* React Flow — align pane with theme */
+.react-flow {
+  background-color: hsl(var(--background));
+}
+
+.dark .react-flow__controls-button {
+  background-color: hsl(var(--card));
+  border-bottom-color: hsl(var(--border));
+  fill: hsl(var(--foreground));
+}
+
+.dark .react-flow__controls-button:hover {
+  background-color: hsl(var(--muted));
+}
+
+.dark .react-flow__minimap {
+  background-color: hsl(var(--muted));
+}
+
+.dark .react-flow__minimap-mask {
+  fill: hsl(var(--background) / 0.55);
+}
+
+.dark .react-flow__edge:not(.react-flow__edge-pipeline) .react-flow__edge-path {
+  stroke: hsl(var(--muted-foreground));
+}
+
+.dark .react-flow__connection-path {
+  stroke: #c4b5fd;
+}
+
+.dark .react-flow__edge.selected .react-flow__edge-path {
+  stroke: hsl(var(--primary));
+}
+
+.dark .react-flow__handle {
+  background: hsl(var(--foreground));
+  border-color: hsl(var(--background));
+}
+
+.dark .react-flow__edge-textbg {
+  fill: hsl(var(--card));
 }

@@ -9,6 +9,7 @@ export const MathNode = ({ id, data }) => {
 
   return (
     <BaseNode
+      nodeId={id}
       title="Math"
       inputs={[{ id: `${id}-left` }, { id: `${id}-right` }]}
       outputs={[{ id: `${id}-output` }]}

@@ -6,6 +6,7 @@ export const LLMNode = ({ id, data }) => {
 
   return (
     <BaseNode
+      nodeId={id}
       title="LLM"
       inputs={[
         { id: `${id}-system` },
