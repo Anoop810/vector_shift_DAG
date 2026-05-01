@@ -1,11 +1,11 @@
-import { useState } from 'react';
-import { BaseNode } from './baseNode';
-import { Input } from '../components/ui/input';
-import { Select } from '../components/ui/select';
+import { BaseNode } from "./baseNode";
+import { Input } from "../components/ui/input";
+import { Select } from "../components/ui/select";
+import { useNodeField } from "./useNodeField";
 
 export const FilterNode = ({ id, data }) => {
-  const [condition, setCondition] = useState(data?.condition ?? 'value > 0');
-  const [mode, setMode] = useState(data?.mode ?? 'keep');
+  const [condition, setCondition] = useNodeField(id, data, "condition", "value > 0");
+  const [mode, setMode] = useNodeField(id, data, "mode", "keep");
 
   return (
     <BaseNode

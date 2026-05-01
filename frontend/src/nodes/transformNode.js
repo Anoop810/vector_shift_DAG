@@ -1,9 +1,14 @@
-import { useState } from 'react';
-import { BaseNode } from './baseNode';
-import { Select } from '../components/ui/select';
+import { BaseNode } from "./baseNode";
+import { Select } from "../components/ui/select";
+import { useNodeField } from "./useNodeField";
 
 export const TransformNode = ({ id, data }) => {
-  const [transformType, setTransformType] = useState(data?.transformType ?? 'uppercase');
+  const [transformType, setTransformType] = useNodeField(
+    id,
+    data,
+    "transformType",
+    "uppercase"
+  );
 
   return (
     <BaseNode

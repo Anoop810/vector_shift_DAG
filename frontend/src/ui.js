@@ -16,6 +16,7 @@ import { TransformNode } from './nodes/transformNode';
 import { MathNode } from './nodes/mathNode';
 import { ConcatNode } from './nodes/concatNode';
 import { FilterNode } from './nodes/filterNode';
+import { DelayNode } from './nodes/delayNode';
 
 import 'reactflow/dist/style.css';
 
@@ -30,6 +31,7 @@ const nodeTypes = {
   math: MathNode,
   concat: ConcatNode,
   filter: FilterNode,
+  delay: DelayNode,
 };
 
 const edgeTypes = {
@@ -129,7 +131,11 @@ export const PipelineUI = () => {
                 }}
             >
                 <Background color={theme === 'dark' ? '#525252' : '#aaa'} gap={gridSize} />
-                <Controls />
+                <Controls
+                  position="bottom-left"
+                  orientation="horizontal"
+                  style={{ marginBottom: 88 }}
+                />
                 <MiniMap />
             </ReactFlow>
         </div>

@@ -16,6 +16,7 @@ export const PipelineToolbar = () => {
                 <DraggableNode type='math' label='Math' />
                 <DraggableNode type='concat' label='Concat' />
                 <DraggableNode type='filter' label='Filter' />
+                <DraggableNode type='delay' label='Delay' />
                 <div className="ml-auto flex shrink-0 items-center">
                     <ThemeToggle />
                 </div>

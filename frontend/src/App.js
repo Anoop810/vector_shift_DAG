@@ -13,7 +13,7 @@ function AppShell() {
       <PipelineToolbar />
       <PipelineUI />
       <SubmitButton />
-      <Toaster position="top-right" richColors closeButton theme={theme} />
+      <Toaster position="bottom-left" richColors closeButton theme={theme} />
     </div>
   );
 }

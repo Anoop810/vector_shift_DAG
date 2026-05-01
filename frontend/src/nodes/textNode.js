@@ -1,8 +1,8 @@
 // textNode.js
 
-import { useState } from 'react';
-import { BaseNode } from './baseNode';
-import { Input } from '../components/ui/input';
+import { BaseNode } from "./baseNode";
+import { useLayoutEffect, useMemo, useRef } from "react";
+import { useNodeField } from "./useNodeField";
 
 const variableRegex = /\{\{\s*([^{}\s]+)\s*\}\}/g;
 
@@ -18,15 +18,31 @@ const extractVariables = (text) => {
 };
 
 export const TextNode = ({ id, data }) => {
-  const [currText, setCurrText] = useState(data?.text ?? '');
+  const [currText, setCurrText] = useNodeField(id, data, "text", "");
+  const textareaRef = useRef(null);
   const variables = extractVariables(currText);
   const inputHandles = variables.map((variable) => ({
     id: `${id}-input-${variable}`,
   }));
+  const textWidth = useMemo(() => {
+    const lines = currText.split("\n");
+    const longestLineLength = lines.reduce(
+      (maxLength, line) => Math.max(maxLength, line.length),
+      0
+    );
 
-  const handleTextChange = (e) => {
-    setCurrText(e.target.value);
-  };
+    return Math.min(Math.max(longestLineLength * 7 + 36, 180), 420);
+  }, [currText]);
+
+  useLayoutEffect(() => {
+    const textarea = textareaRef.current;
+    if (!textarea) return;
+
+    textarea.style.height = "auto";
+    const nextHeight = Math.min(Math.max(textarea.scrollHeight, 64), 220);
+    textarea.style.height = `${nextHeight}px`;
+    textarea.style.overflowY = textarea.scrollHeight > 220 ? "auto" : "hidden";
+  }, [currText]);
 
   return (
     <BaseNode
@@ -38,15 +54,19 @@ export const TextNode = ({ id, data }) => {
       <div>
         <label className="flex flex-col gap-1 text-xs font-medium text-muted-foreground">
           Text:
-          <Input
-            value={currText} 
-            onChange={handleTextChange} 
+          <textarea
+            ref={textareaRef}
+            value={currText}
+            onChange={(e) => setCurrText(e.target.value)}
+            className="max-w-full resize-none rounded-md border border-input bg-background px-2 py-1 text-sm outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            style={{ width: `${textWidth}px` }}
+            rows={1}
           />
         </label>
         <div className="mt-1 text-[11px] text-muted-foreground">
-          Variables: {variables.length ? variables.join(', ') : 'none'}
+          Variables: {variables.length ? variables.join(", ") : "none"}
         </div>
       </div>
     </BaseNode>
   );
-}
+};

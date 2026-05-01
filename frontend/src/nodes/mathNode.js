@@ -1,11 +1,11 @@
-import { useState } from 'react';
-import { BaseNode } from './baseNode';
-import { Input } from '../components/ui/input';
-import { Select } from '../components/ui/select';
+import { BaseNode } from "./baseNode";
+import { Input } from "../components/ui/input";
+import { Select } from "../components/ui/select";
+import { useNodeField } from "./useNodeField";
 
 export const MathNode = ({ id, data }) => {
-  const [operation, setOperation] = useState(data?.operation ?? '+');
-  const [constant, setConstant] = useState(data?.constant ?? '0');
+  const [operation, setOperation] = useNodeField(id, data, "operation", "+");
+  const [constant, setConstant] = useNodeField(id, data, "constant", "0");
 
   return (
     <BaseNode

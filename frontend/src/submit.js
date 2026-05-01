@@ -51,11 +51,11 @@ export const SubmitButton = () => {
     };
 
     return (
-        <div className="flex flex-col items-center gap-2 pb-4">
-            <Button type="button" onClick={handleSubmit} disabled={isSubmitting}>
+        <div className="fixed bottom-4 left-4 z-20 flex w-[220px] flex-col gap-2 rounded-lg border border-border bg-card/95 p-3 shadow-lg backdrop-blur-sm">
+            <Button type="button" onClick={handleSubmit} disabled={isSubmitting} className="w-full">
                 {isSubmitting ? 'Submitting...' : 'Submit'}
             </Button>
-            {error && <div className="text-sm text-red-600">{error}</div>}
+            {error && <div className="text-sm text-destructive">{error}</div>}
         </div>
     );
 }

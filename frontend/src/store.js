@@ -32,6 +32,66 @@ export const useStore = create((set, get) => ({
             ),
         });
     },
+    duplicateNode: (nodeId) => {
+        const nodes = get().nodes;
+        const nodeToDuplicate = nodes.find((node) => node.id === nodeId);
+        if (!nodeToDuplicate) return;
+
+        const duplicatedNodeId = get().getNodeID(nodeToDuplicate.type);
+        const offsetStep = 40;
+        const maxAttempts = 30;
+        let attempt = 1;
+        let nextPosition = {
+            x: nodeToDuplicate.position.x + offsetStep,
+            y: nodeToDuplicate.position.y + offsetStep,
+        };
+
+        while (
+            attempt <= maxAttempts &&
+            nodes.some(
+                (node) =>
+                    Math.abs(node.position.x - nextPosition.x) < 1 &&
+                    Math.abs(node.position.y - nextPosition.y) < 1
+            )
+        ) {
+            attempt += 1;
+            nextPosition = {
+                x: nodeToDuplicate.position.x + offsetStep * attempt,
+                y: nodeToDuplicate.position.y + offsetStep * attempt,
+            };
+        }
+
+        const duplicatedNode = {
+            ...nodeToDuplicate,
+            id: duplicatedNodeId,
+            position: nextPosition,
+            data: {
+                ...nodeToDuplicate.data,
+                id: duplicatedNodeId,
+            },
+            selected: false,
+            dragging: false,
+        };
+
+        set({
+            nodes: [...get().nodes, duplicatedNode],
+        });
+    },
+    toggleNodeCollapsed: (nodeId) => {
+        set({
+            nodes: get().nodes.map((node) =>
+                node.id === nodeId
+                    ? {
+                        ...node,
+                        data: {
+                            ...node.data,
+                            collapsed: !node.data?.collapsed,
+                        },
+                    }
+                    : node
+            ),
+        });
+    },
     removeEdge: (edgeId) => {
         set({
             edges: get().edges.filter((e) => e.id !== edgeId),
@@ -54,13 +114,14 @@ export const useStore = create((set, get) => ({
     },
     updateNodeField: (nodeId, fieldName, fieldValue) => {
       set({
-        nodes: get().nodes.map((node) => {
-          if (node.id === nodeId) {
-            node.data = { ...node.data, [fieldName]: fieldValue };
-          }
-  
-          return node;
-        }),
+        nodes: get().nodes.map((node) =>
+          node.id === nodeId
+            ? {
+                ...node,
+                data: { ...node.data, [fieldName]: fieldValue },
+              }
+            : node
+        ),
       });
     },
   }));

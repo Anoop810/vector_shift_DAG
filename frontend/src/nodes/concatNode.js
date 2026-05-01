@@ -1,9 +1,9 @@
-import { useState } from 'react';
-import { BaseNode } from './baseNode';
-import { Input } from '../components/ui/input';
+import { BaseNode } from "./baseNode";
+import { Input } from "../components/ui/input";
+import { useNodeField } from "./useNodeField";
 
 export const ConcatNode = ({ id, data }) => {
-  const [separator, setSeparator] = useState(data?.separator ?? ' ');
+  const [separator, setSeparator] = useNodeField(id, data, "separator", " ");
 
   return (
     <BaseNode
