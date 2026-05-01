@@ -1,5 +1,6 @@
 import { Toaster } from 'sonner';
 import 'sonner/dist/styles.css';
+import { TooltipProvider } from './components/ui/tooltip';
 import { ThemeProvider, useTheme } from './theme-context';
 import { PipelineToolbar } from './toolbar';
 import { PipelineUI } from './ui';
@@ -9,12 +10,14 @@ function AppShell() {
   const { theme } = useTheme();
 
   return (
-    <div className="min-h-screen bg-background">
-      <PipelineToolbar />
-      <PipelineUI />
-      <SubmitButton />
-      <Toaster position="bottom-left" richColors closeButton theme={theme} />
-    </div>
+    <TooltipProvider delayDuration={300} >
+      <div className="flex h-screen min-h-0 flex-col bg-background">
+        <PipelineToolbar />
+        <PipelineUI />
+        <SubmitButton />
+        <Toaster position="top-center" richColors closeButton theme={theme} />
+      </div>
+    </TooltipProvider>
   );
 }
 

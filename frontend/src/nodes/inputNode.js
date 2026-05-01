@@ -1,8 +1,15 @@
 // inputNode.js
 
 import { BaseNode } from "./baseNode";
+import { Field, FieldLabel } from "../components/ui/field";
 import { Input } from "../components/ui/input";
-import { Select } from "../components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../components/ui/select";
 import { useNodeField } from "./useNodeField";
 
 export const InputNode = ({ id, data }) => {
@@ -20,19 +27,22 @@ export const InputNode = ({ id, data }) => {
       title="Input"
       outputs={[{ id: `${id}-output` }]}
     >
-      <div className="flex flex-col gap-1.5">
-        <label className="flex flex-col gap-1 text-xs font-medium text-muted-foreground">
-          Name:
-          <Input value={currName} onChange={(e) => setCurrName(e.target.value)} />
-        </label>
-        <label className="flex flex-col gap-1 text-xs font-medium text-muted-foreground">
-          Type:
-          <Select value={inputType} onChange={(e) => setInputType(e.target.value)}>
-            <option value="Text">Text</option>
-            <option value="File">File</option>
-          </Select>
-        </label>
-      </div>
+      <Field>
+        <FieldLabel htmlFor={`${id}-name`}>Name:</FieldLabel>
+        <Input id={`${id}-name`} value={currName} onChange={(e) => setCurrName(e.target.value)} />
+      </Field>
+      <Field>
+        <FieldLabel htmlFor={`${id}-input-type`}>Type:</FieldLabel>
+        <Select value={inputType} onValueChange={setInputType}>
+          <SelectTrigger id={`${id}-input-type`} className="w-full">
+            <SelectValue placeholder="Type" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="Text">Text</SelectItem>
+            <SelectItem value="File">File</SelectItem>
+          </SelectContent>
+        </Select>
+      </Field>
     </BaseNode>
   );
 };

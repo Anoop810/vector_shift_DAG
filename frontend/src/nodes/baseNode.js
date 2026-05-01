@@ -2,7 +2,46 @@ import { Handle, Position } from "reactflow";
 import { ChevronDown, ChevronUp, Copy, Trash2 } from "lucide-react";
 import { Button } from "../components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/card";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "../components/ui/tooltip";
 import { useStore } from "../store";
+import { cn } from "../lib/utils";
+
+const NodeHeaderIconButton = ({
+  tooltip,
+  ariaLabel,
+  className,
+  onClick,
+  children,
+}) => (
+  <Tooltip>
+    <TooltipTrigger asChild>
+      <Button
+        type="button"
+        variant="outline"
+        size="sm"
+        className={cn(
+          "nodrag nopan h-7 w-7 p-0 text-muted-foreground",
+          className
+        )}
+        aria-label={ariaLabel}
+        onPointerDown={(e) => e.stopPropagation()}
+        onClick={(e) => {
+          e.stopPropagation();
+          onClick(e);
+        }}
+      >
+        {children}
+      </Button>
+    </TooltipTrigger>
+    <TooltipContent side="top">
+      <p>{tooltip}</p>
+    </TooltipContent>
+  </Tooltip>
+);
 
 const getDistributedTop = (index, total) =>
   `${((index + 1) * 100) / (total + 1)}%`;
@@ -23,7 +62,6 @@ const renderHandles = (handles = [], type, position) =>
         position={position}
         style={{
           top,
-          background: "#555",
           ...handle.style,
         }}
       />
@@ -59,52 +97,32 @@ export const BaseNode = ({
         </CardTitle>
         {nodeId ? (
           <div className="flex shrink-0 items-center gap-1">
-            <Button
-              type="button"
-              variant="outline"
-              size="sm"
-              className="h-7 w-7 p-0 text-muted-foreground"
-              aria-label={isCollapsed ? "Expand node" : "Collapse node"}
-              title={isCollapsed ? "Expand node" : "Collapse node"}
-              onClick={(e) => {
-                e.stopPropagation();
-                toggleNodeCollapsed(nodeId);
-              }}
+            <NodeHeaderIconButton
+              tooltip={isCollapsed ? "Expand node" : "Collapse node"}
+              ariaLabel={isCollapsed ? "Expand node" : "Collapse node"}
+              onClick={() => toggleNodeCollapsed(nodeId)}
             >
               {isCollapsed ? (
                 <ChevronDown className="h-3.5 w-3.5" aria-hidden />
               ) : (
                 <ChevronUp className="h-3.5 w-3.5" aria-hidden />
               )}
-            </Button>
-            <Button
-              type="button"
-              variant="outline"
-              size="sm"
-              className="h-7 w-7 p-0 text-muted-foreground"
-              aria-label="Duplicate node"
-              title="Duplicate node"
-              onClick={(e) => {
-                e.stopPropagation();
-                duplicateNode(nodeId);
-              }}
+            </NodeHeaderIconButton>
+            <NodeHeaderIconButton
+              tooltip="Duplicate node"
+              ariaLabel="Duplicate node"
+              onClick={() => duplicateNode(nodeId)}
             >
               <Copy className="h-3.5 w-3.5" aria-hidden />
-            </Button>
-            <Button
-              type="button"
-              variant="outline"
-              size="sm"
-              className="h-7 w-7 p-0 text-muted-foreground hover:border-destructive/60 hover:bg-destructive/10 hover:text-destructive"
-              aria-label="Delete node"
-              title="Delete node"
-              onClick={(e) => {
-                e.stopPropagation();
-                deleteNode(nodeId);
-              }}
+            </NodeHeaderIconButton>
+            <NodeHeaderIconButton
+              tooltip="Delete node"
+              ariaLabel="Delete node"
+              className="hover:border-destructive/60 hover:bg-destructive/10 hover:text-destructive"
+              onClick={() => deleteNode(nodeId)}
             >
               <Trash2 className="h-3.5 w-3.5" aria-hidden />
-            </Button>
+            </NodeHeaderIconButton>
           </div>
         ) : null}
       </CardHeader>

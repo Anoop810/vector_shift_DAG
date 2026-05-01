@@ -1,4 +1,5 @@
 import { BaseNode } from "./baseNode";
+import { Field, FieldLabel } from "../components/ui/field";
 import { Input } from "../components/ui/input";
 import { useNodeField } from "./useNodeField";
 
@@ -12,10 +13,15 @@ export const ConcatNode = ({ id, data }) => {
       inputs={[{ id: `${id}-first` }, { id: `${id}-second` }, { id: `${id}-third` }]}
       outputs={[{ id: `${id}-output` }]}
     >
-      <label className="flex flex-col gap-1 text-xs font-medium text-muted-foreground">
-        Separator:
-        <Input type="text" value={separator} onChange={(e) => setSeparator(e.target.value)} />
-      </label>
+      <Field>
+        <FieldLabel htmlFor={`${id}-separator`}>Separator:</FieldLabel>
+        <Input
+          id={`${id}-separator`}
+          type="text"
+          value={separator}
+          onChange={(e) => setSeparator(e.target.value)}
+        />
+      </Field>
     </BaseNode>
   );
 };

@@ -1,6 +1,13 @@
 import { BaseNode } from "./baseNode";
+import { Field, FieldLabel } from "../components/ui/field";
 import { Input } from "../components/ui/input";
-import { Select } from "../components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../components/ui/select";
 import { useNodeField } from "./useNodeField";
 
 export const FilterNode = ({ id, data }) => {
@@ -14,17 +21,27 @@ export const FilterNode = ({ id, data }) => {
       inputs={[{ id: `${id}-input` }]}
       outputs={[{ id: `${id}-pass` }, { id: `${id}-fail` }]}
     >
-      <label className="flex flex-col gap-1 text-xs font-medium text-muted-foreground">
-        Condition:
-        <Input type="text" value={condition} onChange={(e) => setCondition(e.target.value)} />
-      </label>
-      <label className="flex flex-col gap-1 text-xs font-medium text-muted-foreground">
-        Mode:
-        <Select value={mode} onChange={(e) => setMode(e.target.value)}>
-          <option value="keep">Keep matching</option>
-          <option value="drop">Drop matching</option>
+      <Field>
+        <FieldLabel htmlFor={`${id}-condition`}>Condition:</FieldLabel>
+        <Input
+          id={`${id}-condition`}
+          type="text"
+          value={condition}
+          onChange={(e) => setCondition(e.target.value)}
+        />
+      </Field>
+      <Field>
+        <FieldLabel htmlFor={`${id}-mode`}>Mode:</FieldLabel>
+        <Select value={mode} onValueChange={setMode}>
+          <SelectTrigger id={`${id}-mode`} className="w-full">
+            <SelectValue placeholder="Mode" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="keep">Keep matching</SelectItem>
+            <SelectItem value="drop">Drop matching</SelectItem>
+          </SelectContent>
         </Select>
-      </label>
+      </Field>
     </BaseNode>
   );
 };

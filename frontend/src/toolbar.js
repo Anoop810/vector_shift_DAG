@@ -6,7 +6,7 @@ import { ThemeToggle } from './theme-toggle';
 export const PipelineToolbar = () => {
 
     return (
-        <div className="px-4 pt-4">
+        <div className="shrink-0 px-4 pb-2 pt-4">
             <div className="flex flex-wrap items-center gap-2">
                 <DraggableNode type='customInput' label='Input' />
                 <DraggableNode type='llm' label='LLM' />

@@ -77,6 +77,19 @@ body {
   border-radius: 10px;
 }
 
+/* Larger connection handles (easier to grab) */
+.react-flow__handle {
+  width: 14px;
+  height: 14px;
+  min-width: 14px;
+  min-height: 14px;
+  border-radius: 9999px;
+  border-width: 2px;
+  border-style: solid;
+  border-color: hsl(var(--background));
+  background: hsl(var(--muted-foreground));
+}
+
 .react-flow__node.selected .react-flow__node-default,
 .react-flow__node.selected .react-flow__node-group,
 .react-flow__node.selected .react-flow__node-input,

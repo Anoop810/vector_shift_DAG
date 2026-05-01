@@ -1,5 +1,12 @@
 import { BaseNode } from "./baseNode";
-import { Select } from "../components/ui/select";
+import { Field, FieldLabel } from "../components/ui/field";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../components/ui/select";
 import { useNodeField } from "./useNodeField";
 
 export const TransformNode = ({ id, data }) => {
@@ -17,14 +24,19 @@ export const TransformNode = ({ id, data }) => {
       inputs={[{ id: `${id}-input` }]}
       outputs={[{ id: `${id}-output` }]}
     >
-      <label className="flex flex-col gap-1 text-xs font-medium text-muted-foreground">
-        Operation:
-        <Select value={transformType} onChange={(e) => setTransformType(e.target.value)}>
-          <option value="uppercase">Uppercase</option>
-          <option value="lowercase">Lowercase</option>
-          <option value="trim">Trim</option>
+      <Field>
+        <FieldLabel htmlFor={`${id}-transform-op`}>Operation:</FieldLabel>
+        <Select value={transformType} onValueChange={setTransformType}>
+          <SelectTrigger id={`${id}-transform-op`} className="w-full">
+            <SelectValue placeholder="Operation" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="uppercase">Uppercase</SelectItem>
+            <SelectItem value="lowercase">Lowercase</SelectItem>
+            <SelectItem value="trim">Trim</SelectItem>
+          </SelectContent>
         </Select>
-      </label>
+      </Field>
     </BaseNode>
   );
 };

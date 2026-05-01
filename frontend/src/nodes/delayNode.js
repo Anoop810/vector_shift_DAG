@@ -1,6 +1,13 @@
 import { BaseNode } from "./baseNode";
+import { Field, FieldLabel } from "../components/ui/field";
 import { Input } from "../components/ui/input";
-import { Select } from "../components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../components/ui/select";
 import { useNodeField } from "./useNodeField";
 
 export const DelayNode = ({ id, data }) => {
@@ -14,23 +21,29 @@ export const DelayNode = ({ id, data }) => {
       inputs={[{ id: `${id}-input` }]}
       outputs={[{ id: `${id}-output` }]}
     >
-      <label className="flex flex-col gap-1 text-xs font-medium text-muted-foreground">
-        Duration:
+      <Field>
+        <FieldLabel htmlFor={`${id}-duration`}>Duration:</FieldLabel>
         <Input
+          id={`${id}-duration`}
           type="number"
           min="0"
           className="[appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
           value={duration}
           onChange={(e) => setDuration(e.target.value)}
         />
-      </label>
-      <label className="flex flex-col gap-1 text-xs font-medium text-muted-foreground">
-        Unit:
-        <Select value={unit} onChange={(e) => setUnit(e.target.value)}>
-          <option value="ms">Milliseconds</option>
-          <option value="s">Seconds</option>
+      </Field>
+      <Field>
+        <FieldLabel htmlFor={`${id}-unit`}>Unit:</FieldLabel>
+        <Select value={unit} onValueChange={setUnit}>
+          <SelectTrigger id={`${id}-unit`} className="w-full">
+            <SelectValue placeholder="Unit" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="ms">Milliseconds</SelectItem>
+            <SelectItem value="s">Seconds</SelectItem>
+          </SelectContent>
         </Select>
-      </label>
+      </Field>
     </BaseNode>
   );
 };

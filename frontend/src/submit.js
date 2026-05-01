@@ -41,7 +41,7 @@ export const SubmitButton = () => {
                         {`Nodes: ${data.num_nodes}\nEdges: ${data.num_edges}\nDAG: ${data.is_dag}`}
                     </span>
                 ),
-                duration: 6000,
+                duration: 4000,
             });
         } catch (err) {
             setError(err.message || 'Request failed');
